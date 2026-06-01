@@ -1,0 +1,15 @@
+docs/superpowers
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+.env
+.idea/
+.vscode/
