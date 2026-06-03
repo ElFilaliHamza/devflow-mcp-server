@@ -13,3 +13,5 @@ venv/
 .env
 .idea/
 .vscode/
+# Any file or directory that starts with "temp_" will be ignored
+temp_*
