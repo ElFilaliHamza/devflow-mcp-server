@@ -5,6 +5,7 @@ Run with: `python -m devflow_mcp`
 
 from __future__ import annotations
 
+import os
 from pathlib import Path
 from typing import Any
 
@@ -14,7 +15,18 @@ from . import db as dbmod
 from .config_store import load_config, save_config
 from .project_scanner import scan_env_template, scan_readme, summarize_readme
 
-mcp = FastMCP("DevFlow")
+# Get host and port from environment variables with defaults
+MCP_HOST = os.getenv("MCP_HOST", "127.0.0.1")
+MCP_PORT = int(os.getenv("MCP_PORT", "8000"))
+
+# Configure for Streamable HTTP at root path for MCP client compatibility
+mcp = FastMCP(
+    "DevFlow", 
+    host=MCP_HOST, 
+    port=MCP_PORT,
+    mount_path="/",
+    streamable_http_path="/"
+)
 
 
 # ---------------------------------------------------------------------------
@@ -366,4 +378,5 @@ def runbook_resource(project: str) -> str:
 
 
 def main() -> None:
-    mcp.run(transport="stdio")
+    # Use streamable-http transport for compatibility with MCP clients like Claude Code
+    mcp.run(transport="streamable-http")

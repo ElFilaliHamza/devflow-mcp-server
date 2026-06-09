@@ -1,6 +1,6 @@
 # DevFlow MCP Server
 
-A project-aware AI sidekick for freelance developers. DevFlow gives Claude Code or any other LLM-powered tool like Codex or Cursor
+DevFlow is an MCP server for freelance developers. DevFlow gives Claude Code or any other LLM-powered tool like Codex or Cursor
 a persistent memory of your projects, clients, coding standards, snippets, and
 deployment commands — and a safe way to execute them.
 
@@ -26,16 +26,69 @@ uv sync
 
 ## Run
 
+### Local Execution
+
 ```bash
 uv run python -m devflow_mcp
 ```
 
+### Docker Execution
+
+DevFlow can also be run as a Docker container for network accessibility.
+
+#### Using docker-compose (recommended)
+
+```bash
+# Start the server using docker-compose
+docker-compose up -d
+
+# To stop the server
+docker-compose down
+```
+
+The MCP server will be accessible at `http://localhost:8081/sse` for MCP clients. Note that the SSE endpoint requires an MCP-compatible client to connect properly - accessing it directly with a web browser or curl will show a hanging connection as it waits for event stream data.
+
 ## Connect to Claude Code
+
+### Local Execution
 
 Run this from the repository root (the directory that contains `pyproject.toml`):
 
 ```bash
 claude mcp add devflow -- uv --project [devflow-absulute-path] run python -m   devflow_mcp
+```
+
+### Docker Execution
+
+If running DevFlow via Docker, connect with:
+
+```bash
+claude mcp add devflow-http -- http://localhost:8081/sse
+```
+
+Verify with:
+
+```bash
+claude mcp list
+```
+
+The expected status is a green check (connected), not a red `failed`.
+
+
+### Local Execution
+
+Run this from the repository root (the directory that contains `pyproject.toml`):
+
+```bash
+claude mcp add devflow -- uv --project [devflow-absulute-path] run python -m   devflow_mcp
+```
+
+### Docker Execution
+
+If running DevFlow via Docker, connect with:
+
+```bash
+claude mcp add devflow-http -- http://localhost:8081/sse
 ```
 
 Verify with:

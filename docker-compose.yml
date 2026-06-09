@@ -1,0 +1,19 @@
+version: '3.8'
+
+services:
+  devflow-mcp:
+    build: .
+    container_name: devflow-server
+    ports:
+      - "8081:8080"
+    volumes:
+      - devflow-data:/data
+    environment:
+      - DEVFLOW_HOME=/data
+      - MCP_TRANSPORT=streamable-http
+      - MCP_HOST=0.0.0.0
+      - MCP_PORT=8080
+    restart: unless-stopped
+
+volumes:
+  devflow-data:
